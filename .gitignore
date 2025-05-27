@@ -1,1 +1,17 @@
+# Node.js
+node_modules/
 .env
+dist/
+build/
+*.log
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
