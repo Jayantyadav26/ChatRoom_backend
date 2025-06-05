@@ -191,20 +191,28 @@ app.get('/check-space', checkAuth, async (req, res) => {
 });
 
 
-// app.delete("/exitRoom",checkAuth, (req,res)=>{
-//     const {userId,spaceId} = req.body;
+app.delete("/exitRoom", checkAuth, async (req, res) => {
+  const { userId, spaceId } = req.body;
 
-//     if(!userId || !spaceId){
-//         return res.status(400).json({message: "Missing userId and spaceId "});
-//     }
+  if (!userId || !spaceId) {
+    return res.status(400).json({ message: "Missing userId or spaceId" });
+  }
 
-//     try{
-        
-//     }catch(err){
+  try {
+    await db.query(
+      "DELETE FROM user_spaces WHERE user_id = ? AND space_id = ?",
+      [userId, spaceId]
+    );
 
-//     }
+    // You can also return 204 if you don't need a message
+    return res.status(200).json({ message: "Room exited successfully" });
 
-// })  
+  } catch (err) {
+    console.error("Error deleting user from space:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 app.listen(port, ()=>{
